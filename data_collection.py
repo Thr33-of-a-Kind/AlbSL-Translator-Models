@@ -8,48 +8,50 @@ cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1)
 
 offset = 20
-imgSize = 300
+imageSize = 300
 
-folder = "images/A"
-counter = 0
+imageFolder = "images/A"
+imageCounter = 0
 
 while True:
-    success, img = cap.read()
-    hands, img = detector.findHands(img)
+    success, image = cap.read()
+    hands, image = detector.findHands(image)
     if hands:
         hand = hands[0]
-        x, y, w, h = hand['bbox']
+        x, y, width, height = hand['bbox']
 
-        imgWhite = np.ones((imgSize, imgSize, 3), np.uint8) * 255
-        imgCrop = img[y - offset:y + h + offset, x - offset:x + w + offset]
+        imageWhite = np.ones((imageSize, imageSize, 3), np.uint8) * 255
+        imageCrop = image[y - offset:y + height + offset, x - offset:x + width + offset]
 
-        imgCropShape = imgCrop.shape
+        imageCropShape = imageCrop.shape
 
-        aspectRatio = h / w
+        aspectRatio = height / width
 
         if aspectRatio > 1:
-            k = imgSize / h
-            wCal = math.ceil(k * w)
-            imgResize = cv2.resize(imgCrop, (wCal, imgSize))
-            imgResizeShape = imgResize.shape
-            wGap = math.ceil((imgSize - wCal) / 2)
-            imgWhite[:, wGap:wCal + wGap] = imgResize
+            coefficient = imageSize / height
+            widthCalculated = math.ceil(coefficient * width)
+            imageResized = cv2.resize(imageCrop, (widthCalculated, imageSize))
+
+            imageResizedShape = imageResized.shape
+            widthGap = math.ceil((imageSize - widthCalculated) / 2)
+            imageWhite[:, widthGap:widthCalculated + widthGap] = imageResized
 
         else:
-            k = imgSize / w
-            hCal = math.ceil(k * h)
-            imgResize = cv2.resize(imgCrop, (imgSize, hCal))
-            imgResizeShape = imgResize.shape
-            hGap = math.ceil((imgSize - hCal) / 2)
-            imgWhite[hGap:hCal + hGap, :] = imgResize
+            coefficient = imageSize / width
+            heightCalculated = math.ceil(coefficient * height)
+            imageResized = cv2.resize(imageCrop, (imageSize, heightCalculated))
 
-        cv2.imshow("ImageCrop", imgCrop)
-        cv2.imshow("ImageWhite", imgWhite)
+            imageResizedShape = imageResized.shape
+            heightGap = math.ceil((imageSize - heightCalculated) / 2)
+            imageWhite[heightGap:heightCalculated + heightGap, :] = imageResized
 
-    cv2.imshow("Image", img)
+        cv2.imshow("Croped Video Capture", imageCrop)
+        cv2.imshow("Croped Video White Background", imageWhite)
+
+    cv2.imshow("Captured Video", image)
     key = cv2.waitKey(1)
 
     if key == ord("s"):
-        counter += 1
-        cv2.imwrite(f'{folder}/Image_{time.time()}.jpg',imgWhite)
-        print(counter)
+        imageCounter += 1
+        cv2.imwrite(f'{imageFolder}/Image_{time.time()}.jpg', imageWhite)
+        print(imageCounter)
