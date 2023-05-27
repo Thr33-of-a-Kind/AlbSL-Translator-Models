@@ -5,15 +5,15 @@ import math
 import tensorflow
 
 modelPath = "./keras_model.h5"
-labels_path = "./labels.txt"
+labelsPath = "./labels.txt"
 
-labels_dict = {}
-with open(labels_path, 'r') as file:
+labels = {}
+with open(labelsPath, 'r') as file:
     for line in file:
         line = line.strip()
         if line:
-            class_index, label = line.split(' ')
-            labels_dict[int(class_index)] = label
+            index, label = line.split(' ')
+            labels[int(index)] = label
 
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 model = tensorflow.keras.models.load_model(modelPath)
@@ -29,7 +29,7 @@ def predict(img):
     predicted = model.predict(data)
     predicted_index = np.argmax(predicted)
 
-    return labels_dict[predicted_index]
+    return labels[predicted_index]
 
 
 capture = cv2.VideoCapture(0)

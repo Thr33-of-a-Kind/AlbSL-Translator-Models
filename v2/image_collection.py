@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 
 imageFolder = './images/A'
 if not os.path.exists(imageFolder):
@@ -12,7 +13,7 @@ while True:
     success, image = capture.read()
     cv2.imshow("Captured video", image)
 
-    key = cv2.waitKey(1)
+    key = cv2.waitKey(200)
 
     if key == ord("s"):
         imageCounter += 1
