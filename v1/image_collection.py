@@ -5,7 +5,6 @@ import math
 import time
 import os
 
-capture = cv2.VideoCapture(0)
 # mpDraw = mp.solutions.drawing_utils
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(static_image_mode=False,
@@ -21,6 +20,7 @@ offset = 20
 imageSize = 300
 imageCounter = 0
 
+capture = cv2.VideoCapture(0)
 while True:
     success, image = capture.read()
     h, w, c = image.shape
@@ -84,8 +84,7 @@ while True:
             imageCounter += 1
             cv2.imwrite(f'{imageFolder}/Image_{time.time()}.jpg', imageBackground)
             print(imageCounter)
-
-    if key == ord("q"):
+    elif key == ord("q"):
         break
 
 capture.release()
