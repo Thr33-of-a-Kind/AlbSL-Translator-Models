@@ -2,7 +2,7 @@ import os
 import cv2
 import time
 
-imageFolder = './images/A'
+imageFolder = './images/I'
 if not os.path.exists(imageFolder):
     os.makedirs(imageFolder)
 
