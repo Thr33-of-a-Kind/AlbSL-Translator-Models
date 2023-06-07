@@ -19,8 +19,6 @@ pickles = pickle.load(open('./model.pkl', 'rb'))
 model = pickles['model']
 
 mpHands = mp.solutions.hands
-# mpDrawing = mp.solutions.drawing_utils
-# mpDrawingStyles = mp.solutions.drawing_styles
 hands = mpHands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
 capture = cv2.VideoCapture(0)
@@ -36,14 +34,6 @@ while True:
 
     results = hands.process(imageRGB)
     if results.multi_hand_landmarks:
-        # for handLandmarks in results.multi_hand_landmarks:
-        #     mpDrawing.draw_landmarks(
-        #         image,
-        #         handLandmarks,
-        #         mpHands.HAND_CONNECTIONS,
-        #         mpDrawingStyles.get(),
-        #         mpDrawingStyles.get_default_hand_connections_style())
-
         for handLandmarks in results.multi_hand_landmarks:
             for _, handLandmark in enumerate(handLandmarks.landmark):
                 x = handLandmark.x
@@ -72,7 +62,7 @@ while True:
         cv2.rectangle(image, (x1, y1), (x2, y2), (255, 0, 0), 4)
         cv2.putText(image, predicted_character, (x1, y1 - 10), cv2.FONT_HERSHEY_COMPLEX, 1.7, (255, 255, 255), 2)
 
-    cv2.imshow('Captured video', image)
+    cv2.imshow('AlbSL Translator', image)
     key = cv2.waitKey(1)
 
     if key == ord("q"):
