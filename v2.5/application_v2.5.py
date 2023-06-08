@@ -9,8 +9,8 @@ import av
 
 warnings.filterwarnings("ignore")
 st.set_option('deprecation.showfileUploaderEncoding', False)
-labelsPath = "./labels.txt"
-modelPath = "./model.pkl"
+labelsPath = "labels.txt"
+modelPath = "model.pkl"
 
 labels = {}
 with open(labelsPath, 'r') as file:
