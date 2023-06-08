@@ -29,8 +29,6 @@ model = pickles['model']
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-video_capture = cv2.VideoCapture(1)
-
 def callback(frame):
     image = frame.to_ndarray(format="bgr24")
 
