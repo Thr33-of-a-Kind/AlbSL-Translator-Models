@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 
-pickles = pickle.load(open('./data.pkl', 'rb'))
+pickles = pickle.load(open('../data.pkl', 'rb'))
 
 data = []
 for d in pickles['data']:

@@ -15,7 +15,7 @@ with open(labelsPath, 'r') as file:
             index, predicted_character = line.split(' ')
             labels[int(index)] = predicted_character
 
-pickles = pickle.load(open('./model.pkl', 'rb'))
+pickles = pickle.load(open('./random_forest/model.pkl', 'rb'))
 model = pickles['model']
 
 mpHands = mp.solutions.hands
