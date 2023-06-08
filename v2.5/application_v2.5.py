@@ -7,6 +7,7 @@ import pickle
 import warnings
 import av
 import os.path
+from twilio.rest import Client
 
 warnings.filterwarnings("ignore")
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -73,6 +74,17 @@ def callback(frame):
 
 
 RTC_CONFIGURATION = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+
+@st.cache_data  # type: ignore
+def get_ice_servers():
+    account_sid = "AC43dc911587e32561ad1ea8e95fa00884"
+    auth_token = "304b36765a2a9e1925058fadeb3c5e70"
+
+    client = Client(account_sid, auth_token)
+
+    token = client.tokens.create()
+
+    return token.ice_servers
 
 webrtc_ctx = webrtc_streamer(
     key="AlbSL Translator",
