@@ -78,7 +78,7 @@ RTC_CONFIGURATION = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 @st.cache_data  # type: ignore
 def get_ice_servers():
     account_sid = "AC43dc911587e32561ad1ea8e95fa00884"
-    auth_token = "304b36765a2a9e1925058fadeb3c5e70"
+    auth_token = "b7893cb7bb7c1d8225a41a55c1420193"
 
     client = Client(account_sid, auth_token)
 
