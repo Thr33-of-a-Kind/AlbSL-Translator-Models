@@ -14,7 +14,7 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 absolute_path = os.path.dirname(__file__)
 
-
+@st.cache_data
 def load_labels():
     labelsPath = absolute_path + "/labels.txt"
     labels = {}
@@ -28,7 +28,7 @@ def load_labels():
     return labels
 
 
-@st.cache
+@st.cache_data
 def load_model():
     modelPath = absolute_path + "/model.pkl"
     return pickle.load(open(modelPath, 'rb'))['model']
