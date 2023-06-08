@@ -13,22 +13,33 @@ warnings.filterwarnings("ignore")
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
 absolute_path = os.path.dirname(__file__)
-labelsPath = absolute_path + "/labels.txt"
-modelPath = absolute_path + "/model.pkl"
 
-labels = {}
-with open(labelsPath, 'r') as file:
-    for line in file:
-        line = line.strip()
-        if line:
-            index, predicted_character = line.split(' ')
-            labels[int(index)] = predicted_character
 
-pickles = pickle.load(open(modelPath, 'rb'))
-model = pickles['model']
+def load_labels():
+    labelsPath = absolute_path + "/labels.txt"
+    labels = {}
+    with open(labelsPath, 'r') as file:
+        for line in file:
+            line = line.strip()
+            if line:
+                index, predicted_character = line.split(' ')
+                labels[int(index)] = predicted_character
+
+    return labels
+
+
+@st.cache
+def load_model():
+    modelPath = absolute_path + "/model.pkl"
+    return pickle.load(open(modelPath, 'rb'))['model']
+
+
+labels = load_labels()
+model = load_model()
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(static_image_mode=True, min_detection_confidence=0.3)
+
 
 def callback(frame):
     image = frame.to_ndarray(format="bgr24")
@@ -81,10 +92,9 @@ def get_ice_servers():
     auth_token = "b7893cb7bb7c1d8225a41a55c1420193"
 
     client = Client(account_sid, auth_token)
-
     token = client.tokens.create()
-
     return token.ice_servers
+
 
 webrtc_ctx = webrtc_streamer(
     key="AlbSL Translator",
