@@ -16,7 +16,7 @@ for d in pickles['data']:
 data = np.asarray(data)
 labels = np.asarray(pickles['labels'])
 
-num_iterations = 2  # Number of iterations for averaging accuracy scores
+num_iterations = 10  # Number of iterations for averaging accuracy scores
 
 accuracy_scores = []
 precision_scores = []
@@ -68,6 +68,6 @@ confusion_matrix_display = ConfusionMatrixDisplay.from_predictions(best_y_test, 
 confusion_matrix_display.plot()
 plt.show()
 
-# pickleFile = open('model.pkl', 'wb')
-# pickle.dump({'model': model}, pickleFile)
-# pickleFile.close()
+pickleFile = open('model.pkl', 'wb')
+pickle.dump({'model': model}, pickleFile)
+pickleFile.close()
