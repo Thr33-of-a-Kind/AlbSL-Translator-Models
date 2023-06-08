@@ -14,6 +14,7 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 absolute_path = os.path.dirname(__file__)
 
+
 @st.cache_data
 def load_labels():
     labelsPath = absolute_path + "/labels.txt"
