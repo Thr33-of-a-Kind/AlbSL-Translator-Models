@@ -1,0 +1,4 @@
+Average accuracy: 98.43%
+Average precision: 98.05%
+Average recall: 97.76%
+Average F1 score: 97.85%

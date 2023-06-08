@@ -1,9 +1,13 @@
 import pickle
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, \
+    ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
+from xgboost import XGBClassifier
 
+# Load the data from the pickle file
 pickles = pickle.load(open('../data.pkl', 'rb'))
 
 data = []
@@ -20,7 +24,8 @@ precision_scores = []
 recall_scores = []
 f1_scores = []
 
-model = RandomForestClassifier()
+best_score = -1
+model = XGBClassifier(n_estimators=2, max_depth=6, learning_rate=1, objective="binary:logistic")
 for _ in range(num_iterations):
     x_train, x_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, shuffle=True, stratify=labels)
     model.fit(x_train, y_train)
@@ -32,6 +37,13 @@ for _ in range(num_iterations):
     recall = recall_score(y_test, y_predict, average='macro')
     f1 = f1_score(y_test, y_predict, average='macro')
 
+
+    if best_score < accuracy:
+        best_score = accuracy
+        best_y_test = y_test
+        best_y_predict = y_predict
+        best_labels = model.classes_
+
     accuracy_scores.append(accuracy)
     precision_scores.append(precision)
     recall_scores.append(recall)
@@ -42,11 +54,42 @@ average_precision = np.mean(precision_scores)
 average_recall = np.mean(recall_scores)
 average_f1 = np.mean(f1_scores)
 
-print('Average accuracy: {:.2%}'.format(average_accuracy))
-print('Average precision: {:.2%}'.format(average_precision))
-print('Average recall: {:.2%}'.format(average_recall))
-print('Average F1 score: {:.2%}'.format(average_f1))
+# Save the evaluation metrics to a text file
+with open('metrics.txt', 'w') as f:
+    f.write('Average accuracy: {:.2%}\n'.format(average_accuracy))
+    f.write('Average precision: {:.2%}\n'.format(average_precision))
+    f.write('Average recall: {:.2%}\n'.format(average_recall))
+    f.write('Average F1 score: {:.2%}\n'.format(average_f1))
 
+
+
+# Plot the boxplot of all metrics
+data = [accuracy_scores, precision_scores, recall_scores, f1_scores]
+labels = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
+plt.boxplot(data, labels=labels)
+plt.title('Evaluation Metrics')
+plt.ylabel('Score')
+plt.savefig('metrics_boxplot.png')
+plt.close()
+
+print('Confusion matrix of the iteration with best accuracy')
+confusion_matrix_display = ConfusionMatrixDisplay.from_predictions(best_y_test, best_y_predict)
+
+# Plot the confusion matrix
+fig, ax = plt.subplots(figsize=(8, 6))
+confusion_matrix_display.plot(ax=ax)
+
+# Add a title and axis labels
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+
+# Save the figure as a PNG image
+plt.savefig('confusion_matrix.png', dpi=300)
+plt.close()
+
+
+# Save the trained model to a pickle file
 pickleFile = open('model.pkl', 'wb')
 pickle.dump({'model': model}, pickleFile)
 pickleFile.close()
