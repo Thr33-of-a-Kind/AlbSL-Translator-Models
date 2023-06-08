@@ -2,8 +2,10 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import streamlit as st
+from streamlit_webrtc import webrtc_streamer, WebRtcMode
 import pickle
 import warnings
+import av
 
 warnings.filterwarnings("ignore")
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -24,36 +26,18 @@ model = pickles['model']
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-st.title("Albanian Sign Language Translation")
-st.subheader("About")
-st.markdown(
-    """
-    This Albanian Sign Language Translation project was developed by **Team Three of a Kind** consisting of:
-    - Drini Karkini
-    - Joana Jaupi
-    - Eugen Selenica
-
-    The aim of the project is to translate sign language gestures captured by a webcam into text.
-    The hand gestures are detected using the MediaPipe library, and a pre-trained model is used to predict
-    the corresponding characters or words based on the detected gestures.
-    """
-)
-
 video_capture = cv2.VideoCapture(0)
 
-# Create placeholders for displaying the video and translation
-video_placeholder = st.empty()
-translation_placeholder = st.empty()
+def callback(frame):
+    image = frame.to_ndarray(format="bgr24")
 
-while True:
+    imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
     dataAux = []
     xList = []
     yList = []
 
-    success, image = video_capture.read()
     height, width, _ = image.shape
-
-    imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     results = hands.process(imageRGB)
     if results.multi_hand_landmarks:
@@ -84,17 +68,16 @@ while True:
         cv2.rectangle(image, (x1, y1), (x2, y2), (255, 0, 0), 4)
         cv2.putText(image, predicted_character, (x1, y1 - 10), cv2.FONT_HERSHEY_COMPLEX, 1.7, (255, 255, 255), 2)
 
-    # Convert the annotated image to RGB format for display in Streamlit
-    annotated_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return av.VideoFrame.from_ndarray(image, format="bgr24")
 
-    # Display the video frame and translation in Streamlit
-    video_placeholder.image(annotated_image, channels="RGB")
-    translation_placeholder.write("Predicted Character: " + predicted_character)
 
-    # Press 'q' to exit the loop
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+RTC_CONFIGURATION = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 
-# Release the video capture and close Streamlit
-video_capture.release()
-cv2.destroyAllWindows()
+webrtc_ctx = webrtc_streamer(
+    key="AlbSL Translator",
+    # mode=WebRtcMode.SENDRECV,
+    rtc_configuration=RTC_CONFIGURATION,
+    # media_stream_constraints={"video": True, "audio": True},
+    video_frame_callback=callback
+    # async_processing=True
+)
