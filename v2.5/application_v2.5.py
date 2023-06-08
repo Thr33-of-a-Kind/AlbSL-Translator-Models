@@ -6,11 +6,14 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode
 import pickle
 import warnings
 import av
+import os.path
 
 warnings.filterwarnings("ignore")
 st.set_option('deprecation.showfileUploaderEncoding', False)
-labelsPath = "labels.txt"
-modelPath = "model.pkl"
+
+absolute_path = os.path.dirname(__file__)
+labelsPath = absolute_path + "/labels.txt"
+modelPath = absolute_path + "/model.pkl"
 
 labels = {}
 with open(labelsPath, 'r') as file:
