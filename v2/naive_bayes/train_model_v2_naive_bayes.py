@@ -17,7 +17,7 @@ labels = np.asarray(pickles['labels'])
 
 num_iterations = 10  # Number of iterations for averaging accuracy scores
 
-accuracy_scores = []naiv
+accuracy_scores = []
 precision_scores = []
 recall_scores = []
 f1_scores = []
