@@ -89,7 +89,7 @@ def get_ice_servers():
 webrtc_ctx = webrtc_streamer(
     key="AlbSL Translator",
     mode=WebRtcMode.SENDRECV,
-    rtc_configuration=get_ice_servers(),
+    rtc_configuration={"iceServers": get_ice_servers()},
     media_stream_constraints={"video": True, "audio": True},
     video_frame_callback=callback,
     async_processing=True
