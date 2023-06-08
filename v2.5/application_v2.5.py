@@ -76,9 +76,9 @@ RTC_CONFIGURATION = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 
 webrtc_ctx = webrtc_streamer(
     key="AlbSL Translator",
-    # mode=WebRtcMode.SENDRECV,
+    mode=WebRtcMode.SENDRECV,
     rtc_configuration=RTC_CONFIGURATION,
-    # media_stream_constraints={"video": True, "audio": True},
-    video_frame_callback=callback
-    # async_processing=True
+    media_stream_constraints={"video": True, "audio": True},
+    video_frame_callback=callback,
+    async_processing=True
 )
