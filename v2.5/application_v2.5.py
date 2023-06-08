@@ -73,7 +73,7 @@ def callback(frame):
         return av.VideoFrame.from_ndarray(image, format="bgr24")
 
 
-RTC_CONFIGURATION = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+# RTC_CONFIGURATION = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 
 @st.cache_data  # type: ignore
 def get_ice_servers():
@@ -89,7 +89,7 @@ def get_ice_servers():
 webrtc_ctx = webrtc_streamer(
     key="AlbSL Translator",
     mode=WebRtcMode.SENDRECV,
-    rtc_configuration=RTC_CONFIGURATION,
+    rtc_configuration=get_ice_servers(),
     media_stream_constraints={"video": True, "audio": True},
     video_frame_callback=callback,
     async_processing=True
