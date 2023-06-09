@@ -1,6 +1,7 @@
 import os
-import cv2
 import time
+
+import cv2
 
 imageFolder = './images/I'
 if not os.path.exists(imageFolder):

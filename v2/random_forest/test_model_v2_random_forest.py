@@ -3,10 +3,10 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, \
     classification_report
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
 
 
 def evaluation_results(model, data, labels):
@@ -18,13 +18,13 @@ def evaluation_results(model, data, labels):
     print(classification_report(y_test, y_predict))
     conf_matrix = confusion_matrix(y_test, y_predict)
 
-
+    # Generate and plot the confusion matrix as a heatmap
     plt.figure(figsize=(10, 8))
     sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g', square=True)
     plt.xlabel('Predicted Labels')
     plt.ylabel('True Labels')
     plt.title('Confusion Matrix')
-    plt.savefig('naive_bayes_confusion_matrix.png')
+    plt.savefig('random_forest_confusion_matrix.png')
     plt.show()
 
 
@@ -38,6 +38,6 @@ for d in pickles['data']:
 data = np.asarray(data)
 labels = np.asarray(pickles['labels'])
 
-model = GaussianNB()
+model = RandomForestClassifier()
 
 evaluation_results(model, data, labels)

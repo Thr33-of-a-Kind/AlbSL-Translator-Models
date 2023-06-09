@@ -1,8 +1,10 @@
 import pickle
+import warnings
+
 import cv2
 import mediapipe as mp
 import numpy as np
-import warnings
+
 warnings.filterwarnings("ignore")
 
 labelsPath = "./labels.txt"
