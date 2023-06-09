@@ -31,7 +31,7 @@ for _ in range(num_iterations):
     y_predict = model.predict(x_test)
 
     accuracy = accuracy_score(y_test, y_predict)
-    precision = precision_score(y_test, y_predict, average='macro', zero_division=1)
+    precision = precision_score(y_test, y_predict, average='macro')
     recall = recall_score(y_test, y_predict, average='macro')
     f1 = f1_score(y_test, y_predict, average='macro')
 
