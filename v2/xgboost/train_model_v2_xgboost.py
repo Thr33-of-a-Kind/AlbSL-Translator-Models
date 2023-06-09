@@ -23,7 +23,7 @@ precision_scores = []
 recall_scores = []
 f1_scores = []
 
-model = XGBClassifier(n_estimators=2, max_depth=6, learning_rate=1, objective="binary:logistic")
+model = XGBClassifier(n_estimators=50, max_depth=6, learning_rate=0.1, objective="binary:logistic")
 for _ in range(num_iterations):
     x_train, x_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, shuffle=True, stratify=labels)
     model.fit(x_train, y_train)
