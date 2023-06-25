@@ -3,7 +3,7 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, \
     classification_report
 from sklearn.model_selection import train_test_split
@@ -24,12 +24,12 @@ def evaluation_results(model, data, labels):
     plt.xlabel('Predicted Labels')
     plt.ylabel('True Labels')
     plt.title('Confusion Matrix')
-    plt.savefig('decision_tree_confusion_matrix.png')
+    plt.savefig('random_forest_confusion_matrix.png')
     plt.show()
 
 
 # Load data from pickle file
-pickles = pickle.load(open('../data.pkl', 'rb'))
+pickles = pickle.load(open('../../data.pkl', 'rb'))
 
 data = []
 for d in pickles['data']:
@@ -38,6 +38,6 @@ for d in pickles['data']:
 data = np.asarray(data)
 labels = np.asarray(pickles['labels'])
 
-model = DecisionTreeClassifier()
+model = RandomForestClassifier()
 
 evaluation_results(model, data, labels)
