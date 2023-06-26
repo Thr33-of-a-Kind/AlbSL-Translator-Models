@@ -43,3 +43,8 @@ plt.ylabel('Model')
 plt.tight_layout()
 plt.savefig('comparison.png')
 plt.show()
+
+for name, score in zip(names, scores):
+    print(f'Name: {name}')
+    print('Score: {:.3%}'.format(score))
+    print()

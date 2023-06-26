@@ -1,4 +1,5 @@
 *.jpg
+*.png
 *.rar
 requirements-script.ps1
 .idea
