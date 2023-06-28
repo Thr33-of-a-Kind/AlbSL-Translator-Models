@@ -15,7 +15,7 @@ for d in pickles['data']:
 data = np.asarray(data)
 labels = np.asarray(pickles['labels'])
 
-num_iterations = 10  # Number of iterations for averaging accuracy scores
+num_iterations = 1  # Number of iterations for averaging accuracy scores
 
 accuracy_scores = []
 precision_scores = []
