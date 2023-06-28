@@ -50,6 +50,6 @@ print('Average precision: {:.2%}'.format(average_precision))
 print('Average recall: {:.2%}'.format(average_recall))
 print('Average F1 score: {:.2%}'.format(average_f1))
 
-pickleFile = open('model.pkl', 'wb')
+pickleFile = open('naive_bayes.pkl', 'wb')
 pickle.dump({'model': model}, pickleFile)
 pickleFile.close()

@@ -21,7 +21,7 @@ labels = np.asarray(pickles['labels'])
 
 x_train, x_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, shuffle=True, stratify=labels)
 
-names = ["knn", "xgb", " ridge"]
+names = ["knn", "xgboost", " ridge"]
 classifiers = [KNeighborsClassifier(),  XGBClassifier(n_estimators=50, max_depth=6, learning_rate=0.1, objective="binary:logistic"), RidgeClassifier()]
 
 scores = []

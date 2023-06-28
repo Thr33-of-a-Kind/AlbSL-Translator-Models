@@ -15,7 +15,7 @@ for d in data_pickle['data']:
 data = np.asarray(data)
 labels = np.asarray(data_pickle['labels'])
 
-num_iterations = 10  # Number of iterations for averaging accuracy scores
+num_iterations = 1  # Number of iterations for averaging accuracy scores
 
 accuracy_scores = []
 precision_scores = []
@@ -49,6 +49,6 @@ print('Average precision: {:.2%}'.format(average_precision))
 print('Average recall: {:.2%}'.format(average_recall))
 print('Average F1 score: {:.2%}'.format(average_f1))
 
-pickleFile = open('svm_model.pkl', 'wb')
+pickleFile = open('svm.pkl', 'wb')
 pickle.dump({'model': svm_model}, pickleFile)
 pickleFile.close()

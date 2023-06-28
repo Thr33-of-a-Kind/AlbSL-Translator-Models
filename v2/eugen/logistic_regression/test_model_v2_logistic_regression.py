@@ -6,6 +6,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
+max_iter = 1000
 
 def evaluation_results(model, data, labels):
     x_train, x_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, shuffle=True, stratify=labels)
@@ -35,6 +36,6 @@ for d in pickles['data']:
 data = np.asarray(data)
 labels = np.asarray(pickles['labels'])
 
-model = LogisticRegression()
+model = LogisticRegression(max_iter=max_iter)
 
 evaluation_results(model, data, labels)
