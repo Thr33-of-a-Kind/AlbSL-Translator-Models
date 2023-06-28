@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from xgboost import XGBClassifier
 
 # Load the data from the pickle file
-pickles = pickle.load(open('../data.pkl', 'rb'))
+pickles = pickle.load(open('../../data.pkl', 'rb'))
 
 data = []
 for d in pickles['data']:
